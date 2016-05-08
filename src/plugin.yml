@@ -1,0 +1,12 @@
+name: MoonKits
+main: cc.isotopestudio.MoonKits.MoonKits
+
+author: Mars
+description: MoonKits
+website: http://isotopestudio.cc
+version: 1.0.0
+commands:
+  MoonKits:
+    description: LimitedWorld reload Command.
+    usage: /<command>
+    aliases: mkits

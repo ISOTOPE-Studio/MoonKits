@@ -1,0 +1,38 @@
+commandblocker:
+  world:
+  - kick player
+  - ban
+  - gm
+  world_nether:
+  - say
+  - renwu
+serverstart:
+  commands:
+  - say hello
+  - say bye
+  - say 1
+  - say 2
+  - say 3
+  - say 3
+  wait: 30
+  kickmsg: "§c服务器正在稳定中！"
+serverstop:
+  #保证时和分都是两位数字 如08:05
+  time: 08:54
+  warning:
+  - 1m
+  - 30s
+  - 15s
+  - 10s
+  - 5s
+  msg: 
+    main: "§c服务器即将重启"
+    sub: "§a还有{time}"
+    kick: "§c服务器正在重启中！"
+join:
+  time: 3
+  location:
+    x: 0
+    y: 0
+    z: 0
+    world: world
