@@ -21,39 +21,42 @@ public class CheckStopTime extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		String time = plugin.getConfig().getString("serverstop.time");
-		if (time == null)
+		List<String> timeList = plugin.getConfig().getStringList("serverstop.time");
+		if (timeList.size() < 1)
 			return;
-		if (format.format(new Date()).equals(time)) {
-			List<String> warnList = plugin.getConfig().getStringList("serverstop.warning");
-			if (warnList.size() < 1)
-				return;
-			int tick = getTicks(warnList.get(0));
-			plugin.getLogger().info("服务器即将重启");
-			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-				public void run() {
-					for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-						player.kickPlayer(plugin.getConfig().getString("serverstop.msg.kick", "§c服务器正在重启中！"));
-					}
-				}
-			}, tick);
-			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-				public void run() {
-					Bukkit.shutdown();
-				}
-			}, tick + 20);
-			for (int i = 0; i < warnList.size(); i++) {
-				String s = warnList.get(i);
+		for (String time : timeList) {
+			if (format.format(new Date()).equals(time)) {
+				List<String> warnList = plugin.getConfig().getStringList("serverstop.warning");
+				if (warnList.size() < 1)
+					return;
+				int tick = getTicks(warnList.get(0));
+				plugin.getLogger().info("服务器即将重启");
 				Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-					@SuppressWarnings("deprecation")
 					public void run() {
 						for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-							player.sendTitle(
-									getMsg(plugin.getConfig().getString("serverstop.msg.main", "§c服务器即将重启"), s),
-									getMsg(plugin.getConfig().getString("serverstop.msg.sub", "§a还有{time}"), s));
+							player.kickPlayer(plugin.getConfig().getString("serverstop.msg.kick", "§c服务器正在重启中！"));
 						}
 					}
-				}, tick - getTicks(s));
+				}, tick);
+				Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+					public void run() {
+						Bukkit.shutdown();
+					}
+				}, tick + 20);
+				for (int i = 0; i < warnList.size(); i++) {
+					String s = warnList.get(i);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+						@SuppressWarnings("deprecation")
+						public void run() {
+							for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+								player.sendTitle(
+										getMsg(plugin.getConfig().getString("serverstop.msg.main", "§c服务器即将重启"), s),
+										getMsg(plugin.getConfig().getString("serverstop.msg.sub", "§a还有{time}"), s));
+							}
+						}
+					}, tick - getTicks(s));
+				}
+				break;
 			}
 		}
 	}

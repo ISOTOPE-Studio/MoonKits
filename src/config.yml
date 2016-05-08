@@ -1,4 +1,5 @@
 commandblocker:
+  enable: true
   world:
   - kick player
   - ban
@@ -7,6 +8,7 @@ commandblocker:
   - say
   - renwu
 serverstart:
+  enable: false
   commands:
   - say hello
   - say bye
@@ -17,8 +19,11 @@ serverstart:
   wait: 30
   kickmsg: "§c服务器正在稳定中！"
 serverstop:
+  enable: true
   #保证时和分都是两位数字 如08:05
-  time: 08:54
+  time:
+  - 08:54
+  - 00:59
   warning:
   - 1m
   - 30s
@@ -30,6 +35,7 @@ serverstop:
     sub: "§a还有{time}"
     kick: "§c服务器正在重启中！"
 join:
+  enable: true
   time: 3
   location:
     x: 0
