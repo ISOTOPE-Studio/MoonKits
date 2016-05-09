@@ -1,7 +1,6 @@
 package cc.isotopestudio.MoonKits;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -10,10 +9,10 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import cc.isotopestudio.MoonKits.commandblocker.CommandListener;
 import cc.isotopestudio.MoonKits.join.PlayerJoinListener;
+import cc.isotopestudio.MoonKits.projectile.ProjectileHitListener;
 import cc.isotopestudio.MoonKits.serverstop.CheckStopTime;
 import cc.isotopestudio.MoonKits.severstart.DispatchCommand;
 import cc.isotopestudio.MoonKits.severstart.PreventLogin;
@@ -59,14 +58,14 @@ public class MoonKits extends JavaPlugin {
 	public void loadKits() {
 		PluginManager pm = this.getServer().getPluginManager();
 
-		if (getConfig().getBoolean("commandblocker.enable")) {
+		if (getConfig().getBoolean("commandblocker.enable", false)) {
 			getLogger().info("加载 commandblocker kit");
 			pm.registerEvents(new CommandListener(this), this);
 		} else {
 			getLogger().info("禁用 commandblocker kit");
 		}
 
-		if (getConfig().getBoolean("serverstart.enable")) {
+		if (getConfig().getBoolean("serverstart.enable", false)) {
 			getLogger().info("加载 serverstart kit");
 			PreventLogin LoginListener = new PreventLogin(this);
 			pm.registerEvents(LoginListener, this);
@@ -85,21 +84,27 @@ public class MoonKits extends JavaPlugin {
 		} else {
 			getLogger().info("禁用 serverstart kit");
 		}
-		
-		if (getConfig().getBoolean("serverstop.enable")) {
+
+		if (getConfig().getBoolean("serverstop.enable", false)) {
 			getLogger().info("加载 serverstop kit");
 			new CheckStopTime(this).runTaskTimer(this, 20 * 60, 20 * 60);
 		} else {
 			getLogger().info("禁用 serverstop kit");
 		}
 
-		if (getConfig().getBoolean("join.enable")) {
+		if (getConfig().getBoolean("join.enable", false)) {
 			getLogger().info("加载 join kit");
 			pm.registerEvents(new PlayerJoinListener(this), this);
 		} else {
 			getLogger().info("禁用 join kit");
 		}
-		
-		
+
+		if (getConfig().getBoolean("projectile.enable", false)) {
+			getLogger().info("加载 projectile kit");
+			pm.registerEvents(new ProjectileHitListener(), this);
+		} else {
+			getLogger().info("禁用 projectile kit");
+		}
+
 	}
 }

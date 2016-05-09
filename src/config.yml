@@ -42,3 +42,5 @@ join:
     y: 0
     z: 0
     world: world
+projectile:
+  enable: true
