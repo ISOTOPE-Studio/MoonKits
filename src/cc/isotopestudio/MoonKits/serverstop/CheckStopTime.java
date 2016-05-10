@@ -25,6 +25,7 @@ public class CheckStopTime extends BukkitRunnable {
 		if (timeList.size() < 1)
 			return;
 		for (String time : timeList) {
+			System.out.println(format.format(new Date()) + " compared with " + time);
 			if (format.format(new Date()).equals(time)) {
 				List<String> warnList = plugin.getConfig().getStringList("serverstop.warning");
 				if (warnList.size() < 1)

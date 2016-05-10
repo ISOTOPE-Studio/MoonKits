@@ -10,13 +10,19 @@ public class ProjectileHitListener implements Listener {
 
 	@EventHandler
 	public void onProjectileHit(EntityDamageByEntityEvent event) {
-		if (event.getCause() != DamageCause.PROJECTILE && !(event.getDamager() instanceof Projectile)) {
-			return;
-		}
-		if (event.getDamager() instanceof Snowball || event.getDamager() instanceof Egg
-				|| event.getDamager() instanceof FishHook) {
-			event.setDamage(0);
-		}
+		if (!(event.getEntity() instanceof Player) &&
+
+		event.getEntity() instanceof LivingEntity &&
+
+		event.getCause() == DamageCause.PROJECTILE &&
+
+		event.getDamager() instanceof Projectile)
+
+			if (event.getDamager() instanceof Snowball || event.getDamager() instanceof Egg
+					|| event.getDamager() instanceof FishHook) {
+				event.setDamage(0);
+				event.setCancelled(true);
+			}
 	}
 
 }
